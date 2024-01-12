@@ -12,17 +12,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Meddit',
       home: MaterialApp(
-        home: Scaffold(
-          appBar: const MedditAppBar(),
-          body: const MainScreen(),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.add),
-          ),
-        ),
+        home: MainScreen(),
       ),
     );
   }
@@ -47,25 +40,6 @@ class MedditAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       backgroundColor: Colors.orangeAccent,
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 30.0),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const App(),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.home),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

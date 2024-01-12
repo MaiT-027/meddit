@@ -3,8 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:meddit/main.dart';
 import 'package:meddit/models/post.dart';
 import 'package:meddit/screens/login.dart';
+import 'package:meddit/screens/write_post_screen.dart';
+import 'package:meddit/utils/user_info_storage.dart';
+import 'package:meddit/utils/error_dialog.dart';
+import 'package:meddit/widgets/custom_indicator.dart';
 import 'package:meddit/widgets/post_list_cell.dart';
 
 class MainScreen extends StatefulWidget {
@@ -19,7 +24,13 @@ class _MainScreenState extends State<MainScreen> {
 
   void fetch() async {
     final serverUrl = dotenv.env['SERVER_URL']!;
-    final response = await http.get(Uri.parse('$serverUrl/post'));
+    final token = await TokenStorage.getToken();
+    final response = await http.get(
+      Uri.parse('$serverUrl/post'),
+      headers: {
+        'Authorization': token ?? '',
+      },
+    );
     switch (response.statusCode) {
       case 200:
         setState(() {
@@ -32,19 +43,25 @@ class _MainScreenState extends State<MainScreen> {
         break;
       case 401:
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          fetch();
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
-              ));
+          showErrorDialog(context, '로그인이 필요합니다.');
         });
+        gotoLoginPage();
         break;
       default:
         setState(() {
           postList = [];
         });
     }
+  }
+
+  void gotoLoginPage() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ));
+    });
   }
 
   @override
@@ -55,13 +72,27 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return getPosts(postList);
+    return Scaffold(
+      appBar: const MedditAppBar(),
+      body: getPosts(postList),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const WritePostScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 
   dynamic getPosts(List<Post>? postList) {
     if (postList == null) {
       return const Center(
-        child: CircularProgressIndicator(strokeAlign: 5),
+        child: CustomCircularIndicator(),
       );
     }
     if (postList.isEmpty) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:meddit/screens/post_detail.dart';
+import 'package:meddit/screens/post_detail_screen.dart';
 
 class PostListCell extends StatelessWidget {
   final String title, authorName;
@@ -34,8 +34,8 @@ class PostListCell extends StatelessWidget {
                   shape: MaterialStateProperty.all(
                       const BeveledRectangleBorder())),
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => PostDetail(
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PostDetailScreen(
                     id: id,
                   ),
                 ));
