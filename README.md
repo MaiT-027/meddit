@@ -1,16 +1,15 @@
 # meddit
 
-A new Flutter project.
+2024 상반기 겨울방학 사이드 프로젝트
 
-## Getting Started
+## 기술 스택
 
-This project is a starting point for a Flutter application.
+Flutter (프론트엔드)
 
-A few resources to get you started if this is your first Flutter project:
+NestJS (백엔드)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 기여자
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[MaiT-027 (프론트엔드)](https://github.com/MaiT-027)
+
+[janalai3395 (백엔드)](https://github.com/janalai3395)
